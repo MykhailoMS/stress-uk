@@ -10,6 +10,7 @@ from pathlib import Path
 import torch
 
 from .data_utils import load_word_patterns, mask_to_word
+from .embeddings import SENSE_EXAMPLES, embedding_disambiguate
 from .heteronyms import disambiguate
 from .hub import get_checkpoint_path
 from .model import StressTagger, decode_mask
@@ -153,6 +154,17 @@ class Stressifier:
                     if d < context.get(w, d + 1):
                         context[w] = d
             override = disambiguate(words_lower[i], context)
+
+            # Стем-тригери не дали відповіді (0 чи ≥2 матчі) - якщо для
+            # цього слова є приклади речень (embeddings.SENSE_EXAMPLES,
+            # зараз ~47 слів, не повний словник), пробуємо few-shot
+            # резолвінг через ембединги того самого контекстного вікна
+            # як суцільного тексту. Помітно дорожче (~десятки мс замість
+            # мікросекунд) - тому ЛИШЕ фолбек, не заміна тригерів.
+            if override is None and words_lower[i] in SENSE_EXAMPLES:
+                in_segment = [j for j in range(lo, hi) if segment_id[j] == sid]
+                seg_text = text[matches[in_segment[0]].start():matches[in_segment[-1]].end()]
+                override = embedding_disambiguate(words_lower[i], seg_text)
 
             if override is not None:
                 out.append(override if word.islower() else override.capitalize())

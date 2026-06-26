@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "stress-uk"
-version = "0.1.1"
+version = "0.2.0"
 description = "Розставляє наголоси (U+0301) в українському тексті - char-level BiLSTM + контекстний резолвер омографів"
 readme = "README.md"
 license = { text = "MIT" }
@@ -28,6 +28,11 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest"]
+# few-shot резолвінг гетеронімів через ембединги (infer/embeddings.py) -
+# опційний фолбек поверх стем-тригерів, лінивий імпорт. Без цього extra
+# пакет працює як і раніше (той самий стем-тригерний резолвер), просто
+# без додаткового покриття на ~47 слів, де є приклади-речення.
+embeddings = ["sentence-transformers>=2.2"]
 
 [project.urls]
 Homepage = "https://github.com/MykhailoMS/stress-uk"
