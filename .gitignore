@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+venv/
+.venv/
+
+# вага моделі живе на HuggingFace Hub, не в git (див. scripts/push_model_to_hf.py)
+models/*.pt
+
+# допоміжні скрипти публікації - лише для локального використання, не для
+# публічного репо (не впливають на сам pip-пакет, і так не входять у wheel)
+scripts/

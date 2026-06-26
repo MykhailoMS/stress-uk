@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stress-uk"
+version = "0.1.1"
+description = "Розставляє наголоси (U+0301) в українському тексті - char-level BiLSTM + контекстний резолвер омографів"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "stress-uk contributors" }]
+keywords = ["ukrainian", "nlp", "stress", "accent", "g2p", "tts"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Text Processing :: Linguistic",
+]
+dependencies = [
+    "torch>=2.0",
+    "huggingface_hub>=0.20",
+    # torch сам по собі не вимагає numpy для роботи нашого коду, але без
+    # нього на старті виводить тривожний (хоч і нешкідливий) UserWarning
+    # "Failed to initialize NumPy" - явна залежність прибирає шум.
+    "numpy",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.urls]
+Homepage = "https://github.com/MykhailoMS/stress-uk"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+stress_uk = ["data/*.json", "data/*.jsonl"]
