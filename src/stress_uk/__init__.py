@@ -6,4 +6,4 @@
 from .infer import Stressifier, get_default_stressifier, stressify, stressify_text
 
 __all__ = ["Stressifier", "get_default_stressifier", "stressify", "stressify_text"]
-__version__ = "0.2.2"
+__version__ = "0.2.3"
