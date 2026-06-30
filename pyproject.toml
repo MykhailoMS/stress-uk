@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "stress-uk"
-version = "0.2.1"
+version = "0.2.2"
 description = "Розставляє наголоси (U+0301) в українському тексті - char-level BiLSTM + контекстний резолвер омографів"
 readme = "README.md"
 license = { text = "MIT" }
